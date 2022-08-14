@@ -183,6 +183,7 @@ public class DoublyLinkedList<T>{
         Node trav = head;
         while(counter != idx){
             trav = trav.next;
+            counter++;
         }
         size--;
         trav.prev.next = trav.next;
