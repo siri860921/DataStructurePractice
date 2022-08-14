@@ -1,6 +1,6 @@
 using System;
 
-public class LinkedList<T>{
+public class CustomLinkedList<T>{
     private class Node{
         public Node next;
         public T data;
@@ -15,7 +15,7 @@ public class LinkedList<T>{
     Node tail;
     int size = 0;
 
-    public LinkedList(){
+    public CustomLinkedList(){
         head = null;
         tail = null;
         size = 0;

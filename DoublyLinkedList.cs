@@ -1,6 +1,6 @@
 using System;
 
-public class DoublyLinkedList<T>{
+public class CustomDoublyLinkedList<T>{
     private class Node{
         public Node prev;
         public Node next;
@@ -17,7 +17,7 @@ public class DoublyLinkedList<T>{
     private Node tail;
     private int size;
 
-    public DoublyLinkedList(){
+    public CustomDoublyLinkedList(){
         this.head = null;
         this.tail = null;
         this.size = 0;
