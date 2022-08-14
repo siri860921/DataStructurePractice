@@ -149,6 +149,7 @@ public class DoublyLinkedList<T>{
                 size--;
                 trav.prev.next = trav.next;
                 trav.next.prev = trav.prev;
+                trav.data = null;
                 trav.prev = null;
                 trav.next = null;
                 return true;
