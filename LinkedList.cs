@@ -21,6 +21,19 @@ public class CustomLinkedList<T>{
         size = 0;
     }
 
+    public void Clear(){
+        Node trav = head;
+        while(trav != null){
+            Node temp = trav.next;
+            trav.data = null;
+            trav.next = null;
+            trav = temp;
+        }
+        size = 0;
+        head = null;
+        tail = null;
+    }
+
     public bool IsEmpty(){
         return size == 0;
     }
