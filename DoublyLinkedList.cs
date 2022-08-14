@@ -83,6 +83,7 @@ public class DoublyLinkedList<T>{
 
     public void Insert(int idx, T data){
         if(idx < 0 || idx >= size) throw new Exception("Index out of bound.");
+        size++;
         if(idx = 0){
             AddFront(data);
             return;
