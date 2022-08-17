@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-public class Stack<T>{
+public class CustomStack<T>{
     private LinkedList<T> list;
     
-    public Stack(){
+    public CustomStack(){
         list = new LinkedList<T>();
     }
 
