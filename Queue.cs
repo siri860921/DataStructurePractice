@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 
 namespace DataStructurePractice{
-        public class CustomQueue<T>{
+        public class Queue<T>{
         System.Collections.Generic.LinkedList<T> list;
 
-        public CustomQueue(){
+        public Queue(){
             list = new System.Collections.Generic.LinkedList<T>();
         }
 
