@@ -121,7 +121,7 @@ namespace DataStructurePractice{
 
         // return true if node1 is smaller than node2
         private bool isLess(int idx1, int idx2){
-            return treeList[idx1].CompareTo(treeList[idx2]) < 1;
+            return treeList[idx1].CompareTo(treeList[idx2]) < 0;
         }
 
         // remove certain node at given index
