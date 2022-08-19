@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace DataStructurePractice{
     public class BinarySearchTree<T> where T: IComparable{
-        private class Node<T>{
+        private class Node{
             public T data;
             public Node<T> left;
             public Node right;
@@ -13,6 +13,13 @@ namespace DataStructurePractice{
                 left = leftNode;
                 right = rightNode;
             }
+        }
+
+        public static enum TreeTraversalOrder{
+            PREORDER,
+            INORDER,
+            POSTORDER,
+            LEVELORDER
         }
 
         int nodeCount; // number of nodes in the binary tree
@@ -73,6 +80,7 @@ namespace DataStructurePractice{
                 else if(data.CompareTo(trav) > 0) trav = trav.right;
             }
             remove(trav);
+            nodeCount--;
             return true;
         }
 
@@ -111,6 +119,46 @@ namespace DataStructurePractice{
             if(data.CompareTo(startNode.data) > 0) contain(data, startNode.right);
             else if(data.CompareTo(startNode.data) < 0) contain(data, startNode.left);
             else return true;           
+        }
+
+        // traverse the binary tree with given traversal method
+        public IEnumerable<T> Traversal(TreeTraversalOrder order){
+            switch(order){
+                case TreeTraversalOrder.PREORDER:
+                    return PreOrderTraverse(root);
+                case TreeTraversalOrder.INORDER:
+                    return InOrderTraverse(root);
+                case TreeTraversalOrder.POSTORDER:
+                    return PostOrderTraverse(root);
+                case TreeTraversalOrder.LEVELORDER:
+                    return LevelOrderTraverse(root);
+                default:
+                    return PreOrderTraverse(root);
+            }
+        }
+
+        private IEnumerable<T> PreOrderTraverse(Node theRoot){
+            Stack<Node> traceStack = new Stack<Node>();
+            if(theRoot != null) traceStack.Push(theRoot);
+            while(theRoot != null && traceStack.Count != 0){
+                Node node = traceStack.Pop();
+                if(node.right != null) traceStack.Push(node.right);
+                if(node.left != null) traceStack.Push(node.left);
+                yield return node.data;
+            } 
+        }
+
+        // TODO: implement the rest of the traversal 
+        private IEnumerable<T> InOrderTraverse(Node trav){
+
+        }
+
+        private IEnumerable<T> PostOrderTraverse(Node trav){
+
+        }
+
+        private IEnumerable<T> LevelOrderTraverse(Node trav){
+
         }
     }
 }
