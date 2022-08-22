@@ -122,43 +122,97 @@ namespace DataStructurePractice{
         }
 
         // traverse the binary tree with given traversal method
-        public IEnumerable<T> Traversal(TreeTraversalOrder order){
+        public T[] Traversal(TreeTraversalOrder order){
             switch(order){
                 case TreeTraversalOrder.PREORDER:
-                    return PreOrderTraverse(root);
+                    return preOrderTraverse();
                 case TreeTraversalOrder.INORDER:
-                    return InOrderTraverse(root);
+                    return inOrderTraverse();
                 case TreeTraversalOrder.POSTORDER:
-                    return PostOrderTraverse(root);
+                    return postOrderTraverse();
                 case TreeTraversalOrder.LEVELORDER:
-                    return LevelOrderTraverse(root);
+                    return levelOrderTraverse();
                 default:
-                    return PreOrderTraverse(root);
+                    return preOrderTraverse();
             }
         }
 
-        private IEnumerable<T> PreOrderTraverse(Node theRoot){
-            Stack<Node> traceStack = new Stack<Node>();
-            if(theRoot != null) traceStack.Push(theRoot);
-            while(theRoot != null && traceStack.Count != 0){
-                Node node = traceStack.Pop();
-                if(node.right != null) traceStack.Push(node.right);
-                if(node.left != null) traceStack.Push(node.left);
-                yield return node.data;
-            } 
+        private T[] preOrderTraverse(){
+            Stack<Node> nodeStack = new Stack<Node>();
+            List<T> preOrderList = new List<T>();
+
+            nodeStack.Push(root);
+            while(nodeStack.Count != 0){
+                Node trav = nodeStack.Pop();
+                if(trav.right != null) nodeStack.Push(trav.right);
+                if(trav.left != null) nodeStack.Push(trav.left);
+                preOrderList.Add(trav.data);
+            }
+
+            return preOrderList.ToArray();
         }
 
-        // TODO: implement the rest of the traversal 
-        private IEnumerable<T> InOrderTraverse(Node trav){
+        private T[] inOrderTraverse(){
+            Stack<Node> nodeStack = new Stack<Node>();
+            List<T> inOrderList = new List<T>();
+            
+            nodeStack.Push(root);
+            Node trav = root;
+            while(nodeStack.Count != 0 && trav != null){
+                if(trav.left != null){
+                    nodeStack.Push(trav.left);
+                    trav = trav.left;
+                }
+                else{
+                    trav = nodeStack.Pop();
+                    inOrderList.Add(trav.data);
+                    if(trav.right != null) nodeStack.Push(trav.right);
+                    trav = trav.right;
+                }
+            }
 
+            return inOrderList.ToArray();
         }
 
-        private IEnumerable<T> PostOrderTraverse(Node trav){
+        private T[] postOrderTraverse(){
+            Stack<Node> nodeStack = new Stack<Node>();
+            Stack<Node> subNodeStack = new Stack<Node>();
+            List<T> postOrderList = new List<T>();
 
+            nodeStack.Push(root);
+            Node trav = root;
+            while(nodeStack.Count != 0){
+                trav = nodeStack.Peek();
+                if(trav.left == null && trav.right == null){
+                    trav = nodeStack.Pop();
+                    postOrderList.Add(trav);
+                }
+                if(trav.Equals(subNodeStack.Peek())){
+                    subNodeStack.Pop();
+                    nodeStack.Pop();
+                    postOrderList.Add(trav);
+                }
+                if(trav.left != null && trav.right != null) subNodeStack.Push(trav);
+                if(trav.right != null) nodeStack.Push(trav.right);
+                if(trav.left != null) nodeStack.Push(trav.left);
+            }
+
+            return postOrderList.ToArray();
         }
 
-        private IEnumerable<T> LevelOrderTraverse(Node trav){
+        private T[] levelOrderTraverse(){
+            Queue<Node> nodeQueue = new Queue<Node>();
+            List<Node> levelOrderList =  new List<Node>();
+            nodeQueue.Enqueue(root);
+            Node trav = root;
+            while(nodeQueue.Size() != 0){
+                trav = nodeQueue.Dequeue();
+                levelOrderList.Add(trav);
+                if(trav.left != null) nodeQueue.Enqueue(trav.left);
+                if(trav.right != null) nodeQueue.Enqueue(trav.right);
+            }
 
+            return levelOrderList.ToArray();
         }
     }
 }
