@@ -9,7 +9,7 @@ namespace DataStructurePractice{
         public T this[int idx]{
         get {
             if(idx >= size) throw new Exception("Index out of bound.");
-            return data[idx];
+                return data[idx];
         }
         set {
             if(idx >= size) throw new Exception("Index out of bound.");
