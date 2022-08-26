@@ -50,6 +50,15 @@ namespace DataStructurePractice{
             table = new List<Entry>[this.capacity];
         }
 
+        public TValue this[TKey key] {
+            get {
+                int bucketIdx = normalizedIndex(key.GetHashCode());
+                Entry existEntry = bucketSeekEntry(bucketIdx, key);
+                if(existEntry == null) throw new Exception("The key is not in the hash table");
+                return existEntry.Value;
+            }
+        }
+
         public int Size() {
             return size;
         }
@@ -74,6 +83,12 @@ namespace DataStructurePractice{
             Entry newEntry = new Entry(key, value);
             int bucketIdx = normalizedIndex(newEntry.HashValue);
             bucketInsertEntry(bucketIdx, newEntry);
+        }
+
+        public bool Remove(TKey key) {
+            if(key == null) throw new Exception("Key cannot be null");
+            int bucketIdx = normalizedIndex(key.GetHashCode());
+            return bucketRemoveEntry(bucketIdx, key);
         }
 
         // converts a hash value to an index
@@ -102,6 +117,31 @@ namespace DataStructurePractice{
             }
         }
 
+        // remove a given entry from the hash table
+        // return true if the entry is removed
+        // otherwise return false
+        private bool bucketRemoveEntry(int bucketIdx, TKey key) {
+            List<Entry> bucket = table[bucketIdx];
+            if(bucket == null) return false;
+            int bucketSize = bucket.Count;
+            int removeEntryIdx = -1;
+            for(int i = 0; i < bucketSize; ++i) {
+                Entry entry = bucket[i];
+                if(entry.Key.Equals(key)) {
+                    removeEntryIdx = i;
+                    break;
+                }
+            }
+            if(removeEntryIdx == -1) return false;
+            bucket.RemoveAt(removeEntryIdx);
+            size--;
+            if(bucket.Count == 0) {
+                bucket.Clear();
+                bucket = null;
+            }
+            return true;
+        }
+
         // find and return a particular entry in a given bicket if it exist
         // returns null otherwise
         private Entry bucketSeekEntry(int bucketIdx, TKey key) {
@@ -115,7 +155,25 @@ namespace DataStructurePractice{
         }
 
         private void resizeTable() {
-
+            capacity = 2 * capacity;
+            threshold = (int)(maxLoadFactor * capacity);
+            List<Entry>[] newTable = new List<Entry>[capacity];
+            int oldTableSize = table.Length;
+            for(int i = 0; i < oldTableSize; ++i) {
+                List<Entry> bucket = table[i];
+                if(bucket == null) continue;
+                int bucketSize = bucket.Count;
+                for(int j = 0; j < bucketSize; ++j) {
+                    Entry entry = bucket[j];
+                    int newEntryIdx = normalizedIndex(entry.HashValue);
+                    if(newTable[newEntryIdx] == null) newTable[newEntryIdx] = new List<Entry>();
+                    newTable[newEntryIdx].Add(entry);
+                }
+                // clear out memory
+                bucket.Clear();
+                bucket = null;
+            }
+            table = newTable;
         }
     }   
 }
