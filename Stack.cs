@@ -1,36 +1,45 @@
 using System;
 using System.Collections.Generic;
 
-namespace DataStructurePractice{
-        public class Stack<T>{
+namespace DataStructurePractice
+{
+    public class CustomStack<T>
+    {
         private System.Collections.Generic.LinkedList<T> list;
-        
-        public Stack(){
+
+        public CustomStack()
+        {
             list = new System.Collections.Generic.LinkedList<T>();
         }
 
-        public int Size(){
-            return list.Count();
+        public int Size()
+        {
+            return list.Count;
         }
 
-        public bool IsEmpty(){
+        public bool IsEmpty()
+        {
             return Size() == 0;
         }
 
-        public void Clear(){
+        public void Clear()
+        {
             list.Clear();
         }
 
-        public T Peek(){
-            return list.Last();
+        public T Peek()
+        {
+            return list.Last.Value;
         }
 
-        public void Push(T data){
+        public void Push(T data)
+        {
             list.AddLast(data);
         }
 
-        public void Pop(){
-            if(IsEmpty()) throw new Exception("Empty stack.");
+        public void Pop()
+        {
+            if (IsEmpty()) throw new Exception("Empty stack.");
             list.RemoveLast();
         }
     }

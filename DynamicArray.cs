@@ -6,7 +6,7 @@ namespace DataStructurePractice{
         int capacity = 0;
         T[] data;
 
-        static public T this[int idx]{
+        public T this[int idx]{
         get {
             if(idx >= size) throw new Exception("Index out of bound.");
             return data[idx];
@@ -33,7 +33,7 @@ namespace DataStructurePractice{
         }
 
         public bool IsEmpty(){
-            return size = 0 ? true : false;
+            return size == 0 ? true : false;
         }
 
         public void Clear(){
@@ -55,7 +55,7 @@ namespace DataStructurePractice{
             data = newData;
         }
 
-        public RemoveAt(int idx){
+        public void RemoveAt(int idx){
             if(idx < 0 || idx >= size) throw new Exception("Index out of bounds.");
             for(int i = 0; i < size; ++i){
                 if(i > idx) data[i - 1] = data[i];

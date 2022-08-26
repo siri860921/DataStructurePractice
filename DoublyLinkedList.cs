@@ -30,7 +30,7 @@ namespace DataStructurePractice{
                 Node temp = trav.next;
                 trav.prev = null;
                 trav.next = null;
-                trav.data = null;
+                trav.data = default(T);
                 trav = temp;
                 temp = null;
             }
@@ -85,7 +85,7 @@ namespace DataStructurePractice{
         public void Insert(int idx, T data){
             if(idx < 0 || idx >= size) throw new Exception("Index out of bound.");
             size++;
-            if(idx = 0){
+            if(idx == 0){
                 AddFront(data);
                 return;
             }
@@ -118,7 +118,7 @@ namespace DataStructurePractice{
             if(size == 0) throw new Exception("Empty list.");
             Node temp = head.next;
             temp.prev = null;
-            head.data = null;
+            head.data = default(T);
             head.next = null;
             head = temp;
             temp = null;
@@ -129,7 +129,7 @@ namespace DataStructurePractice{
             if(size == 0) throw new Exception("Empty list.");
             Node temp = tail.prev;
             temp.next = null;
-            tail.data = null;
+            tail.data = default(T);
             tail.prev = null;
             tail = temp;
             temp = null;
@@ -140,7 +140,7 @@ namespace DataStructurePractice{
             Node trav = head;
             while(trav != null){
                 if(trav.data.Equals(data)){
-                    trav.data = null;
+                    trav.data = default(T);
                     if(size == 1){
                         head = null;
                         tail = null;
@@ -150,7 +150,7 @@ namespace DataStructurePractice{
                     size--;
                     trav.prev.next = trav.next;
                     trav.next.prev = trav.prev;
-                    trav.data = null;
+                    trav.data = default(T);
                     trav.prev = null;
                     trav.next = null;
                     return true;

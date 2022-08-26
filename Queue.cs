@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 
 namespace DataStructurePractice{
-        public class Queue<T>{
+        public class CustomQueue<T>{
         System.Collections.Generic.LinkedList<T> list;
 
-        public Queue(){
+        public CustomQueue(){
             list = new System.Collections.Generic.LinkedList<T>();
         }
 
@@ -14,7 +14,7 @@ namespace DataStructurePractice{
         }
 
         public bool IsEmpty(){
-            return IsEmpty() == 0;
+            return IsEmpty() == true;
         }
 
         public void Clear(){

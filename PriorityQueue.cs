@@ -7,7 +7,7 @@ namespace DataStructurePractice{
         private List<T> treeList;
         // default binary heap constructor
         public BinaryHeap(){
-            this(1);
+            treeList = new List<T>(1);
         }
 
         // construct the binary heap with given size
@@ -34,11 +34,11 @@ namespace DataStructurePractice{
 
 
         public bool IsEmpty(){
-            return treeList.Count() == 0;
+            return treeList.Count == 0;
         }
 
         public int Size(){
-            return treeList.Count();
+            return treeList.Count;
         }
 
         public bool Contains(T data){
@@ -51,7 +51,7 @@ namespace DataStructurePractice{
 
         // return the smallest value in the binary heap
         public T Peek(){
-            if(IsEmpty()) return null;
+            if(IsEmpty()) return default(T);
             return treeList[0];
         }
 
@@ -125,7 +125,7 @@ namespace DataStructurePractice{
         }
 
         // remove certain node at given index
-        private bool removeAt(int idx){
+        private void removeAt(int idx){
             if(idx < 0 || idx >= Size()) throw new ArgumentException("Index out of bound");
             swap(idx, Size() - 1);
             treeList.RemoveAt(Size() - 1);
@@ -133,7 +133,7 @@ namespace DataStructurePractice{
             // select swimming or sinking
             int leftIdx = 2 * idx + 1;
             int rightIdx = 2 * idx + 2;
-            if(treeList[idx] < treeList[leftIdx] && treeList[idx] < treeList[rightidx])
+            if (treeList[idx].CompareTo(treeList[leftIdx]) < 0 && treeList[idx].CompareTo(treeList[rightIdx]) < 0)
                 swim(idx);
             else   
                 sink(idx);

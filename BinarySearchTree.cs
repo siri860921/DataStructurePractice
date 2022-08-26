@@ -2,10 +2,18 @@ using System;
 using System.Collections.Generic;
 
 namespace DataStructurePractice{
+    public enum TreeTraversalOrder
+    {
+        PREORDER,
+        INORDER,
+        POSTORDER,
+        LEVELORDER
+    }
+
     public class BinarySearchTree<T> where T: IComparable{
         private class Node{
             public T data;
-            public Node<T> left;
+            public Node left;
             public Node right;
 
             public Node(T nodeData, Node leftNode, Node rightNode){
@@ -13,13 +21,6 @@ namespace DataStructurePractice{
                 left = leftNode;
                 right = rightNode;
             }
-        }
-
-        public static enum TreeTraversalOrder{
-            PREORDER,
-            INORDER,
-            POSTORDER,
-            LEVELORDER
         }
 
         int nodeCount; // number of nodes in the binary tree
@@ -79,45 +80,45 @@ namespace DataStructurePractice{
                 if(data.CompareTo(trav) < 0) trav = trav.left;
                 else if(data.CompareTo(trav) > 0) trav = trav.right;
             }
-            remove(trav);
+            remove(trav, travParent);
             nodeCount--;
             return true;
         }
 
-        private void remove(Node node){
+        private void remove(Node trav, Node travParent){
             // case 0: if the removed node has no branches
             if(trav.left == null && trav.right == null){
-                trav.data = null;
-                trav = null;
+                trav.data = default(T);
             }
             // case 1: if the removed node only has left branch
             else if(trav.left != null && trav.right == null){
                 travParent.left = trav.left;
-                trav.data = null;
-                trav = null;
+                trav.data = default(T);
             }
             // case 2: if the removed node only has right branch
             else if(trav.left == null && trav.right != null){
                 travParent.right = trav.right;
-                trav.data = null;
+                trav.data = default(T);
                 trav = null;
             }
             // case 3: if the removed node ha both branches
             else{
                 // dig on the left branch to find the maximun value
                 Node travMax = trav.left;
+                Node travMaxParent = trav.left;
                 while(travMax.right != null){
+                    travMaxParent = travMax;
                     travMax = travMax.right;
                 }
                 trav.data = travMax.data;
-                remove(travMax);
+                remove(travMax, travMaxParent);
             }
         }
 
         private bool contain(T data, Node startNode){
             if(startNode == null) return false;
-            if(data.CompareTo(startNode.data) > 0) contain(data, startNode.right);
-            else if(data.CompareTo(startNode.data) < 0) contain(data, startNode.left);
+            if(data.CompareTo(startNode.data) > 0) return contain(data, startNode.right);
+            else if(data.CompareTo(startNode.data) < 0) return contain(data, startNode.left);
             else return true;           
         }
 
@@ -144,7 +145,7 @@ namespace DataStructurePractice{
             nodeStack.Push(root);
             while(nodeStack.Count != 0){
                 Node trav = nodeStack.Pop();
-                if(trav.right != null) nodeStack.Push(trav.right);
+                if (trav.right != null) nodeStack.Push(trav.right);
                 if(trav.left != null) nodeStack.Push(trav.left);
                 preOrderList.Add(trav.data);
             }
@@ -184,13 +185,13 @@ namespace DataStructurePractice{
             while(nodeStack.Count != 0){
                 trav = nodeStack.Peek();
                 if(trav.left == null && trav.right == null){
-                    trav = nodeStack.Pop();
-                    postOrderList.Add(trav);
+                    nodeStack.Pop();
+                    postOrderList.Add(trav.data);
                 }
                 if(trav.Equals(subNodeStack.Peek())){
                     subNodeStack.Pop();
                     nodeStack.Pop();
-                    postOrderList.Add(trav);
+                    postOrderList.Add(trav.data);
                 }
                 if(trav.left != null && trav.right != null) subNodeStack.Push(trav);
                 if(trav.right != null) nodeStack.Push(trav.right);
@@ -202,12 +203,12 @@ namespace DataStructurePractice{
 
         private T[] levelOrderTraverse(){
             Queue<Node> nodeQueue = new Queue<Node>();
-            List<Node> levelOrderList =  new List<Node>();
+            List<T> levelOrderList =  new List<T>();
             nodeQueue.Enqueue(root);
             Node trav = root;
-            while(nodeQueue.Size() != 0){
+            while(nodeQueue.Count != 0){
                 trav = nodeQueue.Dequeue();
-                levelOrderList.Add(trav);
+                levelOrderList.Add(trav.data);
                 if(trav.left != null) nodeQueue.Enqueue(trav.left);
                 if(trav.right != null) nodeQueue.Enqueue(trav.right);
             }

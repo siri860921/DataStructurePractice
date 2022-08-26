@@ -26,7 +26,7 @@ namespace DataStructurePractice{
             Node trav = head;
             while(trav != null){
                 Node temp = trav.next;
-                trav.data = null;
+                trav.data = default(T);
                 trav.next = null;
                 trav = temp;
             }
@@ -115,7 +115,7 @@ namespace DataStructurePractice{
                 trav = trav.next;
             }
             trav.next = null;
-            tail.data = null;
+            tail.data = default(T);
             tail = trav;
             size--;
         }
@@ -123,7 +123,7 @@ namespace DataStructurePractice{
         public void RemoveFront(){
             if(size == 0) throw new Exception("Empty List");
             Node temp = head.next;
-            head.data = null;
+            head.data = default(T);
             head.next = null;
             head = temp;
             size--;
@@ -132,7 +132,7 @@ namespace DataStructurePractice{
         public bool Remove(T data){
             Node trav = head;
             if(trav.data.Equals(data)){
-                head.data = null;
+                head.data = default(T);
                 head = null;
                 tail = null;
                 size = 0;
@@ -143,7 +143,7 @@ namespace DataStructurePractice{
                 if(trav.next.data.Equals(data)){
                     Node temp = trav.next;
                     trav.next = temp.next;
-                    temp.data = null;
+                    temp.data = default(T);
                     temp.next = null;
                     temp = null;
                     if(counter == size - 1 - 1) tail = trav;
@@ -179,7 +179,7 @@ namespace DataStructurePractice{
                 return true;
             }
             Node trav = head;
-            counter = 0;
+            int counter = 0;
             while(counter < idx){
                 trav = trav.next;
                 counter++;
@@ -188,7 +188,7 @@ namespace DataStructurePractice{
             Node temp = trav.next;
             trav.next = temp.next;
             temp.next = null;
-            temp.data = null;
+            temp.data = default(T);
             return true;
         }
     }
