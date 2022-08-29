@@ -42,7 +42,7 @@ namespace DataStructurePractice{
 
         public HashTableSeparateChaining(int capacity, double maxLoadFactor) {
             if(capacity < 0) throw new Exception("Capacity must be larger than 0.");
-            if(maxLoadFactor <= 0) throw new Exception("Max load factor must be larger than 0.");
+            if(maxLoadFactor <= 0 || maxLoadFactor >= 1) throw new Exception("Max load factor must be larger than 0.");
             this.maxLoadFactor = maxLoadFactor;
             this.capacity = capacity;
             this.size = 0;
