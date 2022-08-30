@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace DataStructures {
     public class HashTableQuadraticProbing<TKey, TValue>: HashTableOpenAdressing<TKey, TValue> {
         public HashTableQuadraticProbing() : base(DEFAULT_CAPACITY) { }
+
         public HashTableQuadraticProbing(int capacity): base(capacity) { }
+
         public HashTableQuadraticProbing(int capacity, double loadingFactor) : base(capacity, loadingFactor) { }
 
         protected override void adjustCapacity() {
