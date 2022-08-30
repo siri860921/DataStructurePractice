@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace DataStructures {
-    abstract class HashTableOpenAdressing<TKey, TValue>{
+    public abstract class HashTableOpenAdressing<TKey, TValue>{
         protected double loadFactor;
         protected int capacity;
         protected int threshold;
