@@ -53,7 +53,7 @@ namespace DataStructures {
                 int keyHash = key.GetHashCode();
                 int bucketIdxH1 = normalizeIndex(keyHash);
                 int firstTumbIdx = -1;
-                setupProbing(key);
+                setupSecondaryHash(key);
                 for(int i = 0; true; ++i) {
                     int probingIdx = normalizeIndex(bucketIdxH1 + probe(i));
                     if(keys[probingIdx].Equals(TUMB_STONE)) {
@@ -109,7 +109,7 @@ namespace DataStructures {
             int keyHash = key.GetHashCode();
             int bucketIdxH1 = normalizeIndex(keyHash);
             int firstTumbIdx = -1;
-            setupProbing(key);
+            setupSecondaryHash(key);
             for(int i = 0; true; ++i) {
                 int probingIdx = normalizeIndex(bucketIdxH1 + probe(i));
                 if(keys[probingIdx].Equals(TUMB_STONE)) {
@@ -149,7 +149,7 @@ namespace DataStructures {
             int keyHash = key.GetHashCode();
             int bucketIdxH1 = normalizeIndex(keyHash);
             int firstTumbIdx = -1;
-            setupProbing(key);
+            setupSecondaryHash(key);
             for(int i = 0; true; ++i) {
                 int probingIdx = bucketIdxH1 + probe(i);
                 if(keys[probingIdx].Equals(TUMB_STONE)) {
@@ -176,7 +176,7 @@ namespace DataStructures {
         public bool Remove(TKey key) {
             int keyHash = key.GetHashCode();
             int bucketIdxH1 = normalizeIndex(keyHash);
-            setupProbing(key);
+            setupSecondaryHash(key);
             for(int i = 0; true; ++i) {
                 int probingIdx = normalizeIndex(bucketIdxH1 + probe(i));
                 if(keys[probingIdx] == null) return false;
@@ -229,7 +229,7 @@ namespace DataStructures {
             return gcd(a, a % b);
         }
 
-        protected abstract void setupProbing(TKey key);
+        protected abstract void setupSecondaryHash(TKey key);
 
         protected abstract int probe(int x);
 

@@ -19,7 +19,7 @@ namespace DataStructures {
             return (x * x + x) / 2;
         }
 
-        protected override void setupProbing(TKey key) {
+        protected override void setupSecondaryHash(TKey key) {
             throw new NotImplementedException();
         }
     }

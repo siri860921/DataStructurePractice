@@ -24,7 +24,7 @@ namespace DataStructures {
             return LINEAR_CONSTANT * x;
         }
 
-        protected override void setupProbing(TKey key) {
+        protected override void setupSecondaryHash(TKey key) {
             throw new NotImplementedException();
         }
     }
