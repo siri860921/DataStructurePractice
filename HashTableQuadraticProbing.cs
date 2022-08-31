@@ -14,7 +14,7 @@ namespace DataStructures {
 
         protected override void adjustCapacity() {
             int log = (int)Math.Ceiling(Math.Log(capacity, 2));
-            capacity = 2 ^ log;
+            capacity = (int)Math.Pow(2, log);
         }
 
         protected override int probe(int x) {
