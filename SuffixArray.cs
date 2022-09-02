@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 namespace DataStructures {
-    public abstract class SuffixArray {
+    public abstract class SuffixArrayBase {
         protected int size;
         protected int[] T; // T is the text
         protected int[] sa; // sorted suffix array values
         protected int[] lcps; // longest common prefix array
 
-        public SuffixArray(int[] text) {
+        public SuffixArrayBase(int[] text) {
             if(text == null) throw new Exception("Text cannot be null.");
             T = text;
             size = text.Length;
