@@ -92,14 +92,15 @@ namespace DataStructurePractice{
             }
             // case 1: if the removed node only has left branch
             else if(trav.left != null && trav.right == null){
-                travParent.left = trav.left;
+                if(travParent.left == trav) travParent.left = trav.left;
+                else travParent.right = trav.left;
                 trav.data = default(T);
             }
             // case 2: if the removed node only has right branch
             else if(trav.left == null && trav.right != null){
-                travParent.right = trav.right;
+                if(travParent.right == trav) travParent.right = trav.right;
+                else travParent.left = trav.right;
                 trav.data = default(T);
-                trav = null;
             }
             // case 3: if the removed node ha both branches
             else{

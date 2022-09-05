@@ -52,7 +52,41 @@ namespace DataStructures {
                 return;
             }
             root = add(root, value);
-            
+            nodeCount++;
+        }
+
+        public bool Remove(T value) {
+            Node trav = root;
+            Node prevNode = root;
+            while(trav != null) {
+                int cmp = value.CompareTo(trav.data);
+                if(cmp == 0) break;
+
+                prevNode = trav;
+                if(cmp < 0) trav = trav.left;
+                else if(cmp > 0) trav = trav.right;
+            }
+            if(trav == null) return false;
+
+            remove(trav, prevNode);
+            update(root);
+            balance(root);
+            return true;
+        }
+
+        private void remove(Node node, Node parent) {
+            // if the node has no left and right branches
+            if(node.left == null && node.right == null) {
+                node.data = default(T);
+                return;
+            }
+            // if the node only has left branch
+            if(node.left != null && node.right == null) {
+                Node newChildNode = node.left;
+                if(parent.left == node) parent.left = newChildNode;
+                else parent.right = newChildNode;
+                node.data = default(T);
+            }
         }
 
         private bool contain(T value, Node node) {
