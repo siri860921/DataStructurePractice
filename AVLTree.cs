@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures {
     public class AVLTree<T> where T : IComparable {
@@ -56,6 +53,7 @@ namespace DataStructures {
         }
 
         public bool Remove(T value) {
+            Stack<Node> nodeStack = new Stack<Node>();
             Node trav = root;
             Node prevNode = root;
             while(trav != null) {
@@ -63,18 +61,22 @@ namespace DataStructures {
                 if(cmp == 0) break;
 
                 prevNode = trav;
+                nodeStack.Push(prevNode);
                 if(cmp < 0) trav = trav.left;
                 else if(cmp > 0) trav = trav.right;
             }
             if(trav == null) return false;
 
-            remove(trav, prevNode);
-            update(root);
-            balance(root);
+            remove(trav, prevNode, ref nodeStack);
+            foreach(Node node in nodeStack) {
+                update(node);
+                balance(node);
+            }
+            nodeCount--;
             return true;
         }
 
-        private void remove(Node node, Node parent) {
+        private void remove(Node node, Node parent, ref Stack<Node> nodeStack) {
             // if the node has no left and right branches
             if(node.left == null && node.right == null) {
                 node.data = default(T);
@@ -86,6 +88,30 @@ namespace DataStructures {
                 if(parent.left == node) parent.left = newChildNode;
                 else parent.right = newChildNode;
                 node.data = default(T);
+                return;
+            }
+            // if the node only has right branch
+            if(node.left == null && node.right != null) {
+                Node newChildNode = node.right;
+                if(parent.left == node) parent.left = newChildNode;
+                else parent.right = newChildNode;
+                node.data = default(T);
+                return;
+            }
+            // if the node has both left and right branches
+            if(node.left != null && node.right != null) {
+                nodeStack.Push(node);
+                if(node.left.height <= node.right.height) {
+                    Node parentNode = null;
+                    Node maxNode = findMax(node.left, out parentNode, ref nodeStack);
+                    node.data = maxNode.data;
+                    remove(maxNode, parentNode, ref nodeStack);
+                }
+                else {
+                    Node parentNode = null;
+                    Node minNode = findMin(node.right, out parentNode, ref nodeStack);
+                    remove(minNode, parentNode, ref nodeStack);
+                }
             }
         }
 
@@ -109,8 +135,8 @@ namespace DataStructures {
 
         // update the height and the balance factor of a node
         private void update(Node node) {
-            int leftBranchSize = (node.left == null) ? 0 : node.left.height;
-            int rightBranchSize = (node.right == null) ? 0 : node.right.height;
+            int leftBranchSize = (node.left == null) ? -1 : node.left.height;
+            int rightBranchSize = (node.right == null) ? -1 : node.right.height;
             node.height =  1 + Math.Max(leftBranchSize, rightBranchSize);
             node.balanceFactor = rightBranchSize - leftBranchSize;
         }
@@ -171,6 +197,28 @@ namespace DataStructures {
             update(newBalancedNode);
             update(node);
             return newBalancedNode;
+        }
+
+        private Node findMax(Node node, out Node parentNode, ref Stack<Node> nodeStack) {
+            Node trav = node;
+            parentNode = node;
+            while(trav.right != null) {
+                if(nodeStack != null) nodeStack.Push(trav);
+                parentNode = trav;
+                trav = trav.right;
+            }      
+            return trav;
+        }
+
+        private Node findMin(Node node, out Node parentNode, ref Stack<Node> nodeStack) {
+            Node trav = node;
+            parentNode = node;
+            while(trav.left != null) {
+                if(nodeStack != null) nodeStack.Push(trav);
+                parentNode = trav;
+                trav = trav.left;
+            }
+            return trav;
         }
     }
 }
